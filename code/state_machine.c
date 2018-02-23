@@ -62,3 +62,8 @@ void set_motor_direction(elev_motor_direction_t direction) {
 	elevator_direction = direction;
 	elev_set_motor_direction(direction);
 }
+
+void set_state(elevator_state_t elevator_state)
+{
+
+}
