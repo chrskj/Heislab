@@ -25,7 +25,6 @@ void buttons_handler_update()
 	
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
-		
 		if(elev_get_button_signal(button_get_type(_buttons+i), button_get_floor(_buttons+i)))
 		{	
 			button_set_active(_buttons+i);
@@ -72,7 +71,6 @@ elev_motor_direction_t prefered_direction(int floor, bool direction)
 		bool to_go_up = false;
 		for(int i = 0; i < N_BUTTONS; i++) 
 		{	
-			
 			if(button_is_active(_buttons +i)) 
 			{
 				if(button_get_floor(_buttons+i) < floor) {
@@ -95,7 +93,6 @@ elev_motor_direction_t prefered_direction(int floor, bool direction)
 bool is_button_active_on_floor(int floor) {
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
-		
 		if(button_get_floor(_buttons+i) == floor && button_is_active(_buttons +i))
 		{	
 			return true;

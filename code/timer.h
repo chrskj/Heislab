@@ -1,3 +1,6 @@
+#ifndef TIMER_H
+#define TIMER_H
+
 #include <stdio.h>
 #include <sys/time.h>
 
@@ -23,3 +26,5 @@ void reset_timer(Timer* tim);
 
 
 bool time_is_up(Timer* tim);
+
+#endif
