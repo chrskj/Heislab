@@ -29,22 +29,6 @@ int main() {
 		//if(state = stop and lad || at floor): emergensy_stop_at_floor()
 		//else: emergensy_stop_b_floor()
 		buttons_handler_update();
-		if(elev_get_button_signal(BUTTON_COMMAND, 1)) 
-		{
-			if(!button_pressed) 
-			{
-				state++;
-				if(state > EMERGENCY_STOP_B_FLOOR) 
-				{
-					state = 0;      
-				}
-				printf("button_pressed\n");
-				button_pressed = 1;
-			}
-		} else 
-		{
-			button_pressed = 0;
-		}
 		update_state();
 	}
 

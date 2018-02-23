@@ -28,3 +28,6 @@ int button_get_floor(button * self)
 elev_button_type_t button_get_type(button * self) {
 	return self->_button_type;
 }
+bool button_is_active(button * self) {
+	return self->_active;
+}
