@@ -1,5 +1,3 @@
-#include <sys/time.h>
-#include <stdio.h>
 #include "timer.h"
 
 double get_wall_time(void)
@@ -15,9 +13,9 @@ void start_timer(Timer* tim, double duration)
     (*tim).duration = duration;
 }
 
-double get_time_left(Timer tim)
+double get_time_left(Timer* tim)
 {
-    return (tim.start_time + tim.duration) - get_wall_time(); 
+    return (tim->start_time + tim->duration) - get_wall_time(); 
 }
 
 void reset_timer(Timer* tim)
@@ -25,3 +23,7 @@ void reset_timer(Timer* tim)
     (*tim).start_time = get_wall_time(); 
 }
 
+
+bool time_is_up(Timer* tim) {
+	return get_time_left(tim) <= 0;
+}

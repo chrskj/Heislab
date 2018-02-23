@@ -27,6 +27,7 @@ int main() {
 		//handle emergensy stop
 		//if(state = stop and lad || at floor): emergensy_stop_at_floor()
 		//else: emergensy_stop_b_floor()
+		buttons_handler_update();
 		update_state();
         update_emergency();
 	}

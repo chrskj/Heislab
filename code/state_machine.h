@@ -1,6 +1,8 @@
 #include "elev.h"
 #include <stdio.h>
 #include "utilities.h"
+#include "timer.h"
+#include "buttons_handler.h"
 
 enum elevator_state{
 	MOVING,
@@ -8,7 +10,9 @@ enum elevator_state{
 	IDLE,
 	EMERGENCY_STOP_FLOOR,
 	EMERGENCY_STOP_B_FLOOR
-} state;
+}; 
+typedef enum elevator_state elevator_state_t;
+
 //typedef enum elevator_state elevator_state;
 //elevator_state state;
 
