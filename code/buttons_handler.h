@@ -14,5 +14,8 @@ void turn_buttons_on_floor_off(int floor);
 elev_motor_direction_t get_request_direction(int floor, elev_motor_direction_t direction);
 bool to_stop_on_floor(int floor, elev_motor_direction_t direction);
 bool is_button_active_on_floor(int floor); 
-
+void remove_all_requests();
+elev_motor_direction_t find_direction_after_emergency(int current_floor, int desired_floor, elev_motor_direction_t prev_direction);
+int get_first_active_floor();
+ 
 #endif

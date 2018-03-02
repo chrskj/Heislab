@@ -10,7 +10,8 @@
 enum elevator_state{
 	MOVING,
 	STOP_AND_LOAD,
-	WHAIT_FOR_REQUEST,
+	WAIT_FOR_REQUEST,
+	WAIT_FOR_REQUEST_B_FLOOR,
 	EMERGENCY_STOP_FLOOR,
 	EMERGENCY_STOP_B_FLOOR,
 	INIT
@@ -22,7 +23,7 @@ typedef enum elevator_state elevator_state_t;
 
 void update_event();
 
-void update_state(elevator_state_t elevator_state); 
+void set_state(elevator_state_t elevator_state); 
 
 elevator_state_t get_state();
 

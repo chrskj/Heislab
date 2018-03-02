@@ -113,10 +113,9 @@ bool to_stop_on_floor(int floor, elev_motor_direction_t direction)
 {
 	for(int i = 0; i < N_BUTTONS; i++) //bla gjennom alle knapper
 	{
-		printf("button floor: %i floor: %i\n", button_get_floor(_buttons+i), floor);
         if(button_is_active(_buttons+i) && button_get_floor(_buttons+i) == floor) //If Floor == elevator floor
        	{
-       		printf("Her kommer jeg\n");
+
            if(	is_same_direction(_buttons+i, direction) || 
             	button_get_type(_buttons+i) == BUTTON_COMMAND || 
             	is_extremist_button_request(_buttons+i, direction)) 
@@ -125,7 +124,6 @@ bool to_stop_on_floor(int floor, elev_motor_direction_t direction)
             
        		}
        	}
-       	printf("Kommer jeg hit?\n");
        	if((button_get_floor(_buttons+i) == BUTTOM_FLOOR || button_get_floor(_buttons+i) == TOP_FLOOR) 
        		&& button_get_floor(_buttons+i) == floor)
        	{
@@ -138,26 +136,30 @@ bool to_stop_on_floor(int floor, elev_motor_direction_t direction)
 }
 
 
-bool is_same_direction(button * button_p, elev_motor_direction_t direction) {
-	printf("%i\n", (button_get_type(button_p) == BUTTON_CALL_UP && direction == DIRN_UP) ||
-	(button_get_type(button_p) == BUTTON_CALL_DOWN && direction == DIRN_DOWN));
-
+bool is_same_direction(button * button_p, elev_motor_direction_t direction) 
+{
 	return (button_get_type(button_p) == BUTTON_CALL_UP && direction == DIRN_UP) ||
 	(button_get_type(button_p) == BUTTON_CALL_DOWN && direction == DIRN_DOWN);
 }
 
-bool is_extremist_button_request(button * button_p, elev_motor_direction_t direction) {
-	if(direction == DIRN_UP) {
-		for(int i = 0; i < N_BUTTONS; i++) {
-			if(button_get_floor(button_p)<button_get_floor(_buttons+i) || button_is_active(_buttons+i)) {
+bool is_extremist_button_request(button * button_p, elev_motor_direction_t direction) 
+{
+	if(direction == DIRN_UP) 
+	{
+		for(int i = 0; i < N_BUTTONS; i++) 
+		{
+			if(button_get_floor(button_p)<button_get_floor(_buttons+i) && button_is_active(_buttons+i)) {
 				return false;
 			}
 		}
 		
 	}
-	else if(direction == DIRN_DOWN) {
-		for(int i = 0; i < N_BUTTONS; i++) {
-			if(button_get_floor(button_p)>button_get_floor(_buttons+i) || button_is_active(_buttons+i)) {
+	else if(direction == DIRN_DOWN) 
+	{
+		for(int i = 0; i < N_BUTTONS; i++) 
+		{
+			if(button_get_floor(button_p)>button_get_floor(_buttons+i) && button_is_active(_buttons+i)) 
+			{
 				return false;
 			}
 		}
@@ -167,4 +169,39 @@ bool is_extremist_button_request(button * button_p, elev_motor_direction_t direc
 	}
 	printf("Extrimist floor\n");
 	return true;
+}
+
+void remove_all_requests() 
+{
+	for(int i = 0; i < N_BUTTONS; i++) 
+	{
+		button_set_inactive(_buttons+i);
+	}
+}
+
+elev_motor_direction_t find_direction_after_emergency(int current_floor, int desired_floor, elev_motor_direction_t prev_direction) 
+{
+	if(prev_direction == DIRN_UP) {
+		if(current_floor>=desired_floor) 
+		{
+			return DIRN_DOWN;
+		} 
+	} else if(prev_direction == DIRN_DOWN) 
+	{
+		if(current_floor>desired_floor) {
+			return DIRN_DOWN;
+		}
+	}
+	return DIRN_UP;
+}
+
+int get_first_active_floor() {
+	for(int i = 0; i < N_BUTTONS; i++) 
+	{
+		if(button_is_active(_buttons+i))
+		{
+			return button_get_floor(_buttons+i);
+		}
+	}
+	return -1;
 }
