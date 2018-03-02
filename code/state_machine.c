@@ -4,6 +4,7 @@ Timer timer;
 elevator_state_t state;
 elev_motor_direction_t elevator_direction;
 int floor_indicator;
+bool emergency_is_pressed = false;
 
 void arrive_at_floor(); 
 void depart_from_floor();
@@ -15,31 +16,31 @@ void update_event()
     {
 		case(MOVING):
         {
+            check_emergency();
             check_stop_and_load();
-            check_error();
             break;
         }
 		case(STOP_AND_LOAD):
         {
-            check_error();
+            check_emergency();
             check_idle();
 		    break;
         }
 		case(IDLE):
         {
+            check_emergency();
             check_stop_and_load();
             check_moving();
-            check_error();
 		    break;
         }
 		case(EMERGENCY_STOP_FLOOR):
         {
-            check_error_button_realeased_at_floor();
+            check_button_released();
             break;
         }
 		case(EMERGENCY_STOP_B_FLOOR):
         {
-            check_error_button_realeased_between_floor();
+            check_button_b_released();
             break;
         }
 		case(INIT):
@@ -89,11 +90,17 @@ void update_state(elevator_state_t elevator_state)
         case(EMERGENCY_STOP_B_FLOOR):
         {
             printf("Emergency stop between floors\n");
+            set_motor_direction(DIRN_STOP);
+            elev_set_door_open_lamp(0);
+            emergency_is_pressed = true;
             break;
         }
         case(EMERGENCY_STOP_FLOOR):
         {
             printf("Emergency stop at floor\n");
+            set_motor_direction(DIRN_STOP);
+            elev_set_door_open_lamp(1);
+            emergency_is_pressed = true;
             break;
         }
         case(INIT):
@@ -161,8 +168,33 @@ void check_moving()
         }
 }
 
-void check_error()
+void check_emergency()
 {
+    if(elev_get_floor_sensor_signal() != -1 && elev_get_stop_signal())
+    {
+        update_state(EMERGENCY_STOP_FLOOR);
+    }
+    else if(elev_get_stop_signal())
+    {
+        update_state(EMERGENCY_STOP_B_FLOOR);
+    }
+}
+
+void check_button_released()
+{
+    if (!elev_get_stop_signal())
+    {
+        if (emergency_is_pressed)
+        {
+            emergency_is_pressed = false;
+            start_timer(&timer, 3);
+        }
+        if (time_is_up(&timer))
+        {
+            elev_set_door_open_lamp(0);
+            update_state(IDLE);
+        }
+    }
 
 }
 
