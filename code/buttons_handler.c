@@ -47,6 +47,7 @@ void turn_buttons_on_floor_off(int floor)
 
 elev_motor_direction_t get_request_direction(int floor)
 {
+<<<<<<< HEAD
 	for(int i = 0; i < N_BUTTONS; i++) 
     {
 		if(button_is_active(_buttons + i)) 
@@ -61,6 +62,48 @@ elev_motor_direction_t get_request_direction(int floor)
         }
     } 
     return DIRN_STOP;
+=======
+	if(direction == DIRN_UP || direction == DIRN_STOP) 
+	{
+		bool to_go_down = false;
+		for(int i = 0; i < N_BUTTONS; i++) 
+		{	
+			
+			if(button_is_active(_buttons +i)) 
+			{
+				if(button_get_floor(_buttons+i) > floor) {
+					return DIRN_UP;
+				} else if(button_get_floor(_buttons+i) < floor) {
+					to_go_down = true;
+				}
+			}
+		}
+		if(to_go_down) 
+		{
+			return DIRN_DOWN;
+		}
+	} else {
+		bool to_go_up = false;
+		for(int i = 0; i < N_BUTTONS; i++) 
+		{	
+			if(button_is_active(_buttons +i)) 
+			{
+				if(button_get_floor(_buttons+i) < floor) {
+					return DIRN_DOWN;
+				}else if(button_get_floor(_buttons+i) >floor) {
+					to_go_up = true;
+				}
+			}
+		}
+		if(to_go_up) 
+		{
+			return DIRN_UP;
+		}
+	}
+	
+	return false;
+	
+>>>>>>> fb83a6249525b43e562f6a69c2a0e1312dfab7a0
 }
 
 bool is_button_active_on_floor(int floor) {
