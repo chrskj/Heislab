@@ -25,7 +25,6 @@ void buttons_handler_update()
 	
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
-		
 		if(elev_get_button_signal(button_get_type(_buttons+i), button_get_floor(_buttons+i)))
 		{	
 			button_set_active(_buttons+i);
@@ -46,56 +45,27 @@ void turn_buttons_on_floor_off(int floor)
 
 }
 
-
-elev_motor_direction_t prefered_direction(int floor, bool direction) 
+elev_motor_direction_t get_request_direction(int floor)
 {
-	if(direction == DIRN_UP || direction == DIRN_STOP) 
-	{
-		bool to_go_down = false;
-		for(int i = 0; i < N_BUTTONS; i++) 
-		{	
-			
-			if(button_is_active(_buttons +i)) 
-			{
-				if(button_get_floor(_buttons+i) > floor) {
-					return DIRN_UP;
-				} else if(button_get_floor(_buttons+i) < floor) {
-					to_go_down = true;
-				}
-			}
-		}
-		if(to_go_down) 
-		{
-			return DIRN_DOWN;
-		}
-	} else {
-		bool to_go_up = false;
-		for(int i = 0; i < N_BUTTONS; i++) 
-		{	
-			
-			if(button_is_active(_buttons +i)) 
-			{
-				if(button_get_floor(_buttons+i) < floor) {
-					return DIRN_DOWN;
-				}else if(button_get_floor(_buttons+i) >floor) {
-					to_go_up = true;
-				}
-			}
-		}
-		if(to_go_up) 
-		{
-			return DIRN_UP;
-		}
-	}
-	
-	return false;
-	
+	for(int i = 0; i < N_BUTTONS; i++) 
+    {
+		if(button_is_active(_buttons + i)) 
+        {
+            if(button_get_floor(_buttons + i) > floor) 
+            {
+                return DIRN_UP;
+            } else if(button_get_floor(_buttons+i) < floor) 
+            {
+                return DIRN_DOWN;
+            }
+        }
+    } 
+    return DIRN_STOP;
 }
 
 bool is_button_active_on_floor(int floor) {
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
-		
 		if(button_get_floor(_buttons+i) == floor && button_is_active(_buttons +i))
 		{	
 			return true;

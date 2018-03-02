@@ -1,8 +1,5 @@
 #include "button.h"
 
-
-
-
 void button_init(button * self, elev_button_type_t button_type, int floor) 
 {
 	self->_button_type = button_type;
@@ -25,9 +22,11 @@ int button_get_floor(button * self)
 {
 	return self->_floor;
 }
-elev_button_type_t button_get_type(button * self) {
+elev_button_type_t button_get_type(button * self)
+{
 	return self->_button_type;
 }
-bool button_is_active(button * self) {
+bool button_is_active(button * self)
+{
 	return self->_active;
 }
