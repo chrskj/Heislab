@@ -8,6 +8,12 @@ int floor_indicator;
 void arrive_at_floor(); 
 void depart_from_floor();
 void set_motor_direction(elev_motor_direction_t direction); 
+void check_waiting_for_request();
+void check_stop_and_load();
+bool check_preferred_stop();
+void check_moving();
+void check_error();
+void check_if_floor();
 
 void update_event() 
 {
@@ -22,10 +28,10 @@ void update_event()
 		case(STOP_AND_LOAD):
         {
             check_error();
-            check_idle();
+            check_waiting_for_request();
 		    break;
         }
-		case(IDLE):
+		case(WHAIT_FOR_REQUEST):
         {
             check_stop_and_load();
             check_moving();
@@ -34,12 +40,12 @@ void update_event()
         }
 		case(EMERGENCY_STOP_FLOOR):
         {
-            check_error_button_realeased_at_floor();
+            //check_error_button_realeased_at_floor();
             break;
         }
 		case(EMERGENCY_STOP_B_FLOOR):
         {
-            check_error_button_realeased_between_floor();
+            //check_error_button_realeased_between_floor();
             break;
         }
 		case(INIT):
@@ -76,9 +82,9 @@ void update_state(elevator_state_t elevator_state)
             //Update floorlight       
             break;
         }
-        case(IDLE):
+        case(WHAIT_FOR_REQUEST):
         {
-            printf("Idle\n");
+            printf("Whaiting for request\n");
             elev_set_door_open_lamp(0);
             set_motor_direction(DIRN_STOP);
             floor_indicator = elev_get_floor_sensor_signal();
@@ -115,7 +121,7 @@ void check_stop_and_load()
     int floor_sensor = elev_get_floor_sensor_signal();
     if(floor_sensor != floor_indicator && floor_sensor != -1) 
     {
-        if(is_button_active_on_floor(floor_sensor) && check_preferred_stop()) 
+        if(to_stop_on_floor(floor_sensor, elevator_direction)) 
         {
             update_state(STOP_AND_LOAD);
         }
@@ -125,30 +131,29 @@ void check_stop_and_load()
 
 // Todo: Make prio list for if elevator should stop on floor
 // Same direction same way request > end floor same direction request > same direction opposite way request > opposite direction request
-bool check_preferred_stop()
-{
-    return true;
-}
+
+
+
 
 void check_if_floor()
 {
     if(elev_get_floor_sensor_signal() != -1)
     {
-        update_state(IDLE);
+        update_state(WHAIT_FOR_REQUEST);
     }
 }
 
-void check_idle()
+void check_waiting_for_request()
 {
     if(time_is_up(&timer)) 
     {
-        update_state(IDLE);
+        update_state(WHAIT_FOR_REQUEST);
     }
 }
 
 void check_moving()
 {
-        elev_motor_direction_t activity_listener = get_request_direction(floor_indicator);
+        elev_motor_direction_t activity_listener = get_request_direction(floor_indicator, elevator_direction);
         if(activity_listener == DIRN_DOWN) 
         {
             set_motor_direction(DIRN_DOWN);
