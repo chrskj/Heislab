@@ -15,7 +15,6 @@ void update_event()
     {
 		case(MOVING):
         {
-<<<<<<< HEAD
             check_stop_and_load();
             check_error();
             break;
@@ -50,68 +49,7 @@ void update_event()
         }
 		default:
         {
-			printf("Error, unkonwn event");   
-            break;
-=======
-			int floor_sensor = elev_get_floor_sensor_signal();
-			if(floor_sensor != floor_indicator && floor_sensor != -1) 
-			{
-				if(is_button_active_on_floor(floor_sensor)) 
-				{
-					arrive_at_floor();
-				}
-			}			
-		break;
-        }
-		case(STOP_AND_LOAD):
-        {
-			if(time_is_up(&timer)) 
-			{
-				depart_from_floor();
-			}
-		break;
-        }
-		case(IDLE):
-        {
-			elev_motor_direction_t activity_listener = prefered_direction(floor_indicator, elevator_direction);
-			if(activity_listener != DIRN_STOP) 
-			{
-				set_motor_direction(prefered_direction(floor_indicator, elevator_direction));
-				if(elevator_direction == DIRN_UP || elevator_direction == DIRN_DOWN) 
-                {
-					set_state(MOVING);
-				} else
-                {
-					set_state(IDLE);
-				}
-			}
-		break;
-        }
-		case(EMERGENCY_STOP_FLOOR):
-        {
-            int temp = 1;
-			//ev_set_motor_direction(DIRN_STOP);
-			//if 
-		break;
-        }
-		case(EMERGENCY_STOP_B_FLOOR):
-        {
-            int temp = 1;
-		break;
-        }
-		case(INIT):
-        {
-			set_motor_direction(DIRN_UP);
-			if(elev_get_floor_sensor_signal() != -1)
-            {
-				stop_at_floor();
-			}
-		break;
-        }
-		default:
-        {
 			printf("Error, unkonwn state");   
->>>>>>> fb83a6249525b43e562f6a69c2a0e1312dfab7a0
         }
 	}
 }
@@ -239,35 +177,5 @@ elevator_state_t get_state()
     return state;
 }
 
-	state = elevator_state;
-    switch(state)
-    {
-    case(MOVING):
-        printf("Moving\n");
-        break;
-    case(IDLE):
-        printf("Idle\n");
-        break;
-    case(STOP_AND_LOAD):
-        printf("Stop and load\n");
-        break;
-    case(EMERGENCY_STOP_B_FLOOR):
-        printf("Emergency stop between floors\n");
-        break;
-    case(EMERGENCY_STOP_FLOOR):
-        printf("Emergency stop at floor\n");
-        break;
-    case(INIT):
-        printf("Initialize\n");
-        break;
-    default:
-        break;
-    }
-}
-
-elevator_state_t get_state()
-{
-    return state;
-}
 
 
