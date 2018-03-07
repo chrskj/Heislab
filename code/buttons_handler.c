@@ -1,14 +1,17 @@
 #include "buttons_handler.h"
 #define N_BUTTONS N_FLOORS+(N_FLOORS-1)*2
-//Commands Up Down
-//  ****  ***  ***
+
 
 #define TOP_FLOOR N_FLOORS
 #define BUTTOM_FLOOR 0
 
+//Array of all buttons not including emergency button 
 button _buttons[N_BUTTONS];
 
+//Determine if the button direction is the same as elevator direction
 bool is_same_direction(button * button_p, elev_motor_direction_t direction);
+
+//Determine if button is the highest or lowest button witch is also active
 bool is_extremist_button_request(button * button_p, elev_motor_direction_t direction);
 
 

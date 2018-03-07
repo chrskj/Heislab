@@ -10,19 +10,33 @@ bool emergency_is_pressed = false;
 void arrive_at_floor(); 
 void depart_from_floor();
 void set_motor_direction(elev_motor_direction_t direction); 
+
+//Check buttons and if conditons met goto WAIT_FOR_REQUEST state
 bool check_waiting_for_request();
+
+//Check sensors and if conditons while moving met stop elevator and set state to STOP_AND_LOAD
 bool check_stop_on_floor();
+
+//Check sensors and if button activated on same floor set state to STOP_AND_LOAD
 bool check_load_on_floor();
-bool check_preferred_stop();
+
+//Check sensors and if any buttons in pressed set state to MOVING
 bool check_moving();
-bool check_if_floor();
 
-void update_floor_indicator_light();
+//While moving in state INIT check if elevator has arrived at floor and set state to WAIT_FOR_REQUEST
+bool check_if_arrived_floor();
 
-bool check_button_released();
+//Check if emergency button is relesed to end EMERGENCY state
+bool check_emergency_button_released();
+
+//Check if emergency button is pressed to enter EMERGENCY state
 bool check_emergency();
 
-bool wait_for_request();
+//update light that indicates current floor
+void update_floor_indicator_light();
+
+//while waiting for reqest between floors check if any buttons is pressed and set state to MOVING
+bool  check_moving_form_b_floor();
 
 void update_event() 
 {
@@ -69,7 +83,7 @@ void update_event()
             buttons_handler_update();
             if(
             check_emergency() ||
-            wait_for_request())
+             check_moving_form_b_floor())
             break;
             break;
         }
@@ -77,7 +91,7 @@ void update_event()
         {
 
             if(
-            check_button_released())
+             check_emergency_button_released())
             break;
             break;
 
@@ -85,7 +99,7 @@ void update_event()
 		case(EMERGENCY_STOP_B_FLOOR):
         {
             if(
-            check_button_released())
+             check_emergency_button_released())
             break;
             break;
 
@@ -93,7 +107,7 @@ void update_event()
 		case(INIT):
         {
             if(
-            check_if_floor())
+            check_if_arrived_floor())
             break;
             break;
 
@@ -182,7 +196,7 @@ void set_state(elevator_state_t elevator_state)
         }
     }
 }
-bool wait_for_request() {
+bool  check_moving_form_b_floor() {
     int desired_floor = get_first_active_floor();
     if(desired_floor!= -1) {
         prev_direction = find_direction_after_emergency(floor_indicator, desired_floor, prev_direction);
@@ -194,7 +208,6 @@ bool wait_for_request() {
 }
 
 
-// Checks if elevator is at a floor which has been requested
 bool check_stop_on_floor()
 {
     int floor_sensor = elev_get_floor_sensor_signal();
@@ -213,7 +226,7 @@ bool check_stop_on_floor()
     return false;			
 }
 
-bool check_if_floor()
+bool check_if_arrived_floor()
 {
     if(elev_get_floor_sensor_signal() != -1)
     {
@@ -276,7 +289,7 @@ bool check_emergency()
     return false;
 }
 
-bool check_button_released()
+bool  check_emergency_button_released()
 {
     if (!elev_get_stop_signal())
     {
