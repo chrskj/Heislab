@@ -14,7 +14,7 @@ void buttons_handler_init();
 //Check if buttons is pressed and set their state to active if pressed
 void buttons_handler_update();
 
-//Turns all buttons on floor off
+//Sets all buttons on floor inactive
 void turn_buttons_on_floor_off(int floor);
 
 //When leaving floor find the preferd direction by looking at active buttons
@@ -26,7 +26,7 @@ bool to_stop_on_floor(int floor, elev_motor_direction_t direction);
 //Determine if any button is active on floor
 bool is_button_active_on_floor(int floor); 
 
-//Sets all buttons on floor inactive
+//Sets all buttons inactive
 void remove_all_requests();
 
 //Find the preferd direction after emegency to return to requested floor
