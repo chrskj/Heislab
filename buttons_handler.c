@@ -1,7 +1,6 @@
 #include "buttons_handler.h"
 #define N_BUTTONS N_FLOORS+(N_FLOORS-1)*2
 
-
 #define TOP_FLOOR N_FLOORS
 #define BUTTOM_FLOOR 0
 

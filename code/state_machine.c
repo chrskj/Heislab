@@ -4,23 +4,22 @@ Timer timer;
 elevator_state_t state;
 elev_motor_direction_t prev_direction;
 bool stopped_at_floor = false;
-int floor_indicator;
 bool emergency_is_pressed = false;
+int floor_indicator;
 
-void arrive_at_floor(); 
-void depart_from_floor();
+//Sets the motor direction of the elevator
 void set_motor_direction(elev_motor_direction_t direction); 
 
-//Check buttons and if conditons met goto WAIT_FOR_REQUEST state
+//Checks if timer for door has run out, if so the state is set to WAIT_FOR_REQUEST
 bool check_waiting_for_request();
 
-//Check sensors and if conditons while moving met stop elevator and set state to STOP_AND_LOAD
+//Checks if elevator is on a floor which it hasn't stopped at that meets the requirements from another function for entering state STOP_AND_LOAD
 bool check_stop_on_floor();
 
 //Check sensors and if button activated on same floor set state to STOP_AND_LOAD
 bool check_load_on_floor();
 
-//Check sensors and if any buttons in pressed set state to MOVING
+//Check sensors and if any buttons in pressed set state to MOVING with direction based on logic from another function
 bool check_moving();
 
 //While moving in state INIT check if elevator has arrived at floor and set state to WAIT_FOR_REQUEST
@@ -35,9 +34,10 @@ bool check_emergency();
 //update light that indicates current floor
 void update_floor_indicator_light();
 
-//while waiting for reqest between floors check if any buttons is pressed and set state to MOVING
-bool  check_moving_form_b_floor();
+//Sets state to moving if any button is pressed while waiting between floors
+bool  check_moving_from_b_floor();
 
+//Updates which events should be checked according to which state the system is in
 void update_event() 
 {
 	switch(state)
@@ -83,7 +83,7 @@ void update_event()
             buttons_handler_update();
             if(
             check_emergency() ||
-             check_moving_form_b_floor())
+             check_moving_from_b_floor())
             break;
             break;
         }
@@ -119,6 +119,7 @@ void update_event()
 	}
 }
 
+//Sets the state of the system and runs logic for that state
 void set_state(elevator_state_t elevator_state)
 {
 	state = elevator_state;
@@ -196,7 +197,9 @@ void set_state(elevator_state_t elevator_state)
         }
     }
 }
-bool  check_moving_form_b_floor() {
+
+bool  check_moving_from_b_floor()
+{
     int desired_floor = get_first_active_floor();
     if(desired_floor!= -1) {
         prev_direction = find_direction_after_emergency(floor_indicator, desired_floor, prev_direction);
@@ -206,7 +209,6 @@ bool  check_moving_form_b_floor() {
     }
     return 0;
 }
-
 
 bool check_stop_on_floor()
 {
@@ -300,9 +302,12 @@ bool  check_emergency_button_released()
         }
         if (time_is_up(&timer))
         {
-            if(get_state() == EMERGENCY_STOP_B_FLOOR) {
+            if(get_state() == EMERGENCY_STOP_B_FLOOR) 
+            {
                 set_state(WAIT_FOR_REQUEST_B_FLOOR);
-            } else {
+            } 
+            else 
+            {
                 elev_set_door_open_lamp(0);
                 set_state(WAIT_FOR_REQUEST);
             }
@@ -323,11 +328,6 @@ void set_motor_direction(elev_motor_direction_t direction)
 	   prev_direction = direction;
     }
 	elev_set_motor_direction(direction);
-}
-
-elevator_state_t get_state()
-{
-    return state;
 }
 
 void update_floor_indicator_light() 
