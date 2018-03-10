@@ -1,29 +1,31 @@
 #include "timer.h"
 
+Timer _timer;
+
 double get_wall_time(void)
 {
     struct timeval time;
     gettimeofday(&time, NULL);
-    return (double)time.tv_sec + (double)time.tv_usec * .000001;
+    return (double)time.tv_sec + (double)time.tv_usec* .000001;
 }
 
-void start_timer(Timer* tim, double duration)
+void start_timer(double duration)
 {
-    (*tim).start_time = get_wall_time();
-    (*tim).duration = duration;
+    _timer.start_time = get_wall_time();
+    _timer.duration = duration;
 }
 
-double get_time_left(Timer* tim)
+double get_time_left()
 {
-    return (tim->start_time + tim->duration) - get_wall_time(); 
+    return (_timer.start_time + _timer.duration) - get_wall_time(); 
 }
 
-void reset_timer(Timer* tim)
+void reset_timer()
 {
-    (*tim).start_time = get_wall_time(); 
+    _timer.start_time = get_wall_time(); 
 }
 
-
-bool time_is_up(Timer* tim) {
-	return get_time_left(tim) <= 0;
+bool time_is_up()
+{
+	return get_time_left() <= 0;
 }

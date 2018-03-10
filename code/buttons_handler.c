@@ -1,19 +1,17 @@
 #include "buttons_handler.h"
+
 #define N_BUTTONS N_FLOORS+(N_FLOORS-1)*2
-
-
 #define TOP_FLOOR N_FLOORS
 #define BUTTOM_FLOOR 0
 
 //Array of all buttons not including emergency button 
-button _buttons[N_BUTTONS];
+Button _buttons[N_BUTTONS];
 
 //Determine if the button direction is the same as elevator direction
-bool is_same_direction(button * button_p, elev_motor_direction_t direction);
+bool is_same_direction(Button* button_p, elev_motor_direction_t direction);
 
 //Determine if button is the highest or lowest button witch is also active
-bool is_extremist_button_request(button * button_p, elev_motor_direction_t direction);
-
+bool is_extremist_button_request(Button* button_p, elev_motor_direction_t direction);
 
 void buttons_handler_init() 
 {
@@ -30,9 +28,9 @@ void buttons_handler_init()
 		button_init(_buttons + i + N_FLOORS*2-1 , BUTTON_CALL_DOWN, i+1);
 	}
 }
+
 void buttons_handler_update() 
 {
-	
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
 		if(elev_get_button_signal(button_get_type(_buttons+i), button_get_floor(_buttons+i)))
@@ -46,13 +44,11 @@ void turn_buttons_on_floor_off(int floor)
 {
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{	
-		
 		if(button_get_floor(_buttons+i) == floor)
 		{	
 			button_set_inactive(_buttons+i);
 		}
 	}
-
 }
 
 elev_motor_direction_t get_request_direction(int floor, elev_motor_direction_t direction)
@@ -111,7 +107,6 @@ bool is_button_active_on_floor(int floor)
 	return false;
 }
 
-
 bool to_stop_on_floor(int floor, elev_motor_direction_t direction) 
 {
 	for(int i = 0; i < N_BUTTONS; i++) //bla gjennom alle knapper
@@ -138,14 +133,13 @@ bool to_stop_on_floor(int floor, elev_motor_direction_t direction)
     return false;
 }
 
-
-bool is_same_direction(button * button_p, elev_motor_direction_t direction) 
+bool is_same_direction(Button* button_p, elev_motor_direction_t direction) 
 {
 	return (button_get_type(button_p) == BUTTON_CALL_UP && direction == DIRN_UP) ||
 	(button_get_type(button_p) == BUTTON_CALL_DOWN && direction == DIRN_DOWN);
 }
 
-bool is_extremist_button_request(button * button_p, elev_motor_direction_t direction) 
+bool is_extremist_button_request(Button* button_p, elev_motor_direction_t direction) 
 {
 	if(direction == DIRN_UP) 
 	{
@@ -198,7 +192,8 @@ elev_motor_direction_t find_direction_after_emergency(int current_floor, int des
 	return DIRN_UP;
 }
 
-int get_first_active_floor() {
+int get_first_active_floor()
+{
 	for(int i = 0; i < N_BUTTONS; i++) 
 	{
 		if(button_is_active(_buttons+i))

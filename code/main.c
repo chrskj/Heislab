@@ -1,9 +1,12 @@
 #include <stdio.h>
 
 #include "elev.h"
-#include "state_machine.h"
+#include "elevator_controller.h"
 #include "buttons_handler.h"
-//#include "emergency_handler.h"
+#include "stop_button.h"
+#include "motor.h"
+#include "door.h"
+#include "floor_indicator.h"
 
 int main() {
 	// Initialize hardware
@@ -14,7 +17,10 @@ int main() {
 	}
 
     // Initialize logic
+    close_door();
+	stop_set_inactive();
 	buttons_handler_init();
+	motor_init();
 	set_state(INIT);
 
     // Update Loop

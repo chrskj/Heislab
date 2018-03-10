@@ -4,18 +4,18 @@
 #include "elev.h"
 #include "utilities.h"
 
-struct button {
+typedef struct button
+{
 	int _active;
 	elev_button_type_t _button_type;
 	int _floor;
-}; 
-typedef struct button button;
+} Button; 
 
-void button_init(button * self, elev_button_type_t button_type, int floor);
-void button_set_active(button * self);
-void button_set_inactive(button * self);
-int button_get_floor(button * self);
-bool button_is_active(button * self);
-elev_button_type_t button_get_type(button * self);
+void button_init(Button* self, elev_button_type_t button_type, int floor);
+void button_set_active(Button* self);
+void button_set_inactive(Button* self);
+int button_get_floor(Button* self);
+bool button_is_active(Button* self);
+elev_button_type_t button_get_type(Button* self);
 
 #endif
