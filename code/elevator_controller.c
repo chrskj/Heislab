@@ -134,7 +134,6 @@ bool check_emergency_released()
     }
 }
 
-//Updates which events should be checked according to which state the system is in
 void update_event() 
 {
 	switch(state)
@@ -221,7 +220,6 @@ void update_event()
 	}
 }
 
-//Sets the state of the system and runs logic for that state
 void set_state(elevator_state_t elevator_state)
 {
 	state = elevator_state;

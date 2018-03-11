@@ -1,7 +1,5 @@
 #include "stop_button.h"
 
-//Check if emergency button is pressed to enter EMERGENCY state
-
 Stop_button _stop_button;
 
 void stop_set_active()

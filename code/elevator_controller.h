@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 
+// The different states of the system
 typedef enum elevator_state
 {
 	MOVING, //Elevator moving between floors

@@ -9,8 +9,10 @@ typedef struct door
 	bool open;
 } Door; 
 
+//Opens the door
 void open_door();
 
+//Closes the door
 void close_door();
 
 #endif

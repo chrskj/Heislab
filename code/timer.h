@@ -12,16 +12,19 @@ typedef struct timer
     double duration;
 } Timer;
 
-// Return number of seconds after 1970
+//Return number of seconds after 1970
 double get_wall_time(void);
 
+//Starts timer with desired duration and start_time
 void start_timer(double duration);
 
-// Checks if timer duration is done
+//Returns how much time is left
 double get_time_left();
 
+//Sets new start time and keeps same duration
 void reset_timer();
 
+//Returns true if time is up
 bool time_is_up();
 
 #endif
