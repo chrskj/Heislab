@@ -269,6 +269,7 @@ void set_state(elevator_state_t elevator_state)
         {
             printf("Emergency stop at floor\n");
         	stop_set_active();
+        	open_door();
     		motor_set_direction(DIRN_STOP);
             break;
         }
