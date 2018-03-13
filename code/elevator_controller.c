@@ -120,18 +120,13 @@ bool check_emergency_released()
 		{
 			set_state(WAIT_FOR_REQUEST_B_FLOOR);
 		}
-		else if (time_is_up())
+		else 
 		{
-            close_door();
-            set_state(WAIT_FOR_REQUEST);	
+            set_state(STOP_AND_LOAD);	
 		}
 		return true;
 	}
-    else
-    {
-        start_timer(3);
-    	return false;
-    }
+    return false;
 }
 
 void update_event() 
@@ -189,7 +184,7 @@ void update_event()
 		case(EMERGENCY_STOP_FLOOR):
         {
         	stop_button_update();
-            buttons_handler_update();
+            //buttons_handler_update();
             if(
                     check_emergency_released())
             break;
@@ -198,7 +193,7 @@ void update_event()
 		case(EMERGENCY_STOP_B_FLOOR):
         {
         	stop_button_update();
-            buttons_handler_update();
+            //buttons_handler_update();
             if(
                     check_emergency_released())
             break;
