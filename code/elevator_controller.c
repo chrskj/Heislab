@@ -184,7 +184,6 @@ void update_event()
 		case(EMERGENCY_STOP_FLOOR):
         {
         	stop_button_update();
-            //buttons_handler_update();
             if(
                     check_emergency_released())
             break;
@@ -193,7 +192,6 @@ void update_event()
 		case(EMERGENCY_STOP_B_FLOOR):
         {
         	stop_button_update();
-            //buttons_handler_update();
             if(
                     check_emergency_released())
             break;
