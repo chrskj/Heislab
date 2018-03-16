@@ -6,25 +6,25 @@
 
 #include "utilities.h"
 
-struct timer
+typedef struct timer
 {
     double start_time;
     double duration;
-};
+} Timer;
 
-typedef struct timer Timer;
-
-// Return number of seconds after 1970
+//Return number of seconds after 1970
 double get_wall_time(void);
 
-void start_timer(Timer* tim, double duration);
+//Starts timer with desired duration and start_time
+void start_timer(double duration);
 
-// Checks if timer duration is done
-double get_time_left(Timer * tim);
+//Returns how much time is left
+double get_time_left();
 
-void reset_timer(Timer* tim);
+//Sets new start time and keeps same duration
+void reset_timer();
 
-
-bool time_is_up(Timer* tim);
+//Returns true if time is up
+bool time_is_up();
 
 #endif

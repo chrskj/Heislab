@@ -9,6 +9,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 // Number of signals and lamps on a per-floor basis (excl sensor)
 #define N_BUTTONS 3
@@ -20,7 +21,6 @@ static const int lamp_channel_matrix[N_FLOORS][N_BUTTONS] =
     {LIGHT_UP3, LIGHT_DOWN3, LIGHT_COMMAND3},
     {LIGHT_UP4, LIGHT_DOWN4, LIGHT_COMMAND4},
 };
-
 
 static const int button_channel_matrix[N_FLOORS][N_BUTTONS] = 
 {

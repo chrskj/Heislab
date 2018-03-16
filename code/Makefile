@@ -1,5 +1,5 @@
 # Which compiler to use
-CC = clang-3.6
+CC = clang-3.8
 
 # Compiler flags go here.
 CFLAGS = -g -Wall
@@ -8,7 +8,7 @@ CFLAGS = -g -Wall
 LDFLAGS = -lcomedi -lm
 
 # list of sources
-ELEVSRC = elev.c io.c button.c buttons_handler.c main.c state_machine.c timer.c
+ELEVSRC = elev.c io.c button.c buttons_handler.c main.c elevator_controller.c timer.c stop_button.c motor.c door.c floor_indicator.c
 
 # program executable file name.
 TARGET = heis

@@ -6,7 +6,8 @@
 #include "elev.h"
 #include "button.h"
 #include "utilities.h"
-#include "state_machine.h"
+#include "elevator_controller.h"
+#include "stop_button.h"
 
 //Initialize all buttons 
 void buttons_handler_init();
